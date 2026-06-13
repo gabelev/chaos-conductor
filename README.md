@@ -8,6 +8,19 @@ Chaos Conductor turns Chaos Dimension from a board that your agents passively re
 
 **Status:** **M1 (imperative wrappers + status read-back) is implemented** — see [Install](#install) and [Control surface](#control-surface). It proves remote control without SSH. The declarative reconcile loop (set targets, converge on a timer) is **M3 and not built yet**. See [Roadmap](#roadmap).
 
+## The workflow
+
+The Conductor is the **Control** plane in a loop that runs from a half-formed idea to an agent shipping work on a remote box — and back.
+
+![The loop: Notion to Chaos Dimension to Chaos Conductor to Claude Code agents, and back](docs/workflow.svg)
+
+1. **Think in Notion** — heavy thinking, requirements, specs.
+2. **Land tasks on the board** — a Claude session turns those requirements into tasks in [Chaos Dimension](https://github.com/gabelev/chaos_dimension), the neutral ledger of what work exists.
+3. **Hand off to the Conductor** — you tell it to distribute the `remoteRunnable` tasks across the fleet; it provisions and drives the runtime for you, no SSH.
+4. **Agents execute, and report back** — Claude Code sessions on a remote box (via [`claude-rc-server`](https://github.com/gabelev/claude-rc-server)) claim tasks, do the work, and update the board (`claim_task` → `report_progress` → *Review* / *Done*). You review and refine the next round in Notion. The loop continues.
+
+You own coordination (the board) and control (the Conductor); you rent the runtime.
+
 ## Why this exists
 
 Running always-on Claude Code agents on a VPS works, but the operations are all manual. With `claude-rc-server` today, getting an agent working means doing this on the box, in order:
