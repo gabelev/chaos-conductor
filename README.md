@@ -4,9 +4,7 @@ Declarative control plane for remote Claude Code sessions.
 
 > The board declares what should be running. The Conductor reconciles the droplet to match.
 
-Chaos Conductor turns Chaos Dimension from a board that your agents passively report to into an active control plane that provisions and runs the agents themselves. It automates everything you currently do by hand in [`claude-rc-server`](https://github.com/gabelev/claude-rc-server): installing the runtime, authenticating, registering MCP, cloning repos, standing up per-repo Remote Control servers, and spawning or reaping sessions. Instead of SSHing into a box and typing `systemctl`, you declare intent on the board and the Conductor makes the machine match it.
-
-**Status:** **M1 (imperative wrappers + status read-back) is implemented** — see [Install](#install) and [Control surface](#control-surface). It proves remote control without SSH. The declarative reconcile loop (set targets, converge on a timer) is **M3 and not built yet**. See [Roadmap](#roadmap).
+Chaos Conductor turns [Chaos Dimension](https://github.com/gabelev/chaos_dimension) from a board that your agents passively report to into an active control plane that provisions and runs the agents themselves. It automates everything you currently do by hand in [`claude-rc-server`](https://github.com/gabelev/claude-rc-server): installing the runtime, authenticating, registering MCP, cloning repos, standing up per-repo Remote Control servers, and spawning or reaping sessions. Instead of SSHing into a box and typing `systemctl`, you declare intent on the board and the Conductor makes the machine match it.
 
 ## The workflow
 
@@ -21,13 +19,15 @@ The Conductor is the **Control** plane in a loop that runs from a half-formed id
 
 You own coordination (the board) and control (the Conductor); you rent the runtime.
 
+**Status:** **M1 (imperative wrappers + status read-back) is implemented** — see [Install](#install) and [Control surface](#control-surface). It proves remote control without SSH. The declarative reconcile loop (set targets, converge on a timer) is **M3 and not built yet**. See [Roadmap](#roadmap).
+
 ## Why this exists
 
 Running always-on Claude Code agents on a VPS works, but the operations are all manual. With `claude-rc-server` today, getting an agent working means doing this on the box, in order:
 
 1. `install.sh` to set up dependencies, the systemd template unit, and linger.
 2. `auth.sh` for a one-time headless OAuth login.
-3. `setup-mcp.sh` to register the Chaos Dimension MCP at user scope.
+3. `setup-mcp.sh` to register the [Chaos Dimension](https://github.com/gabelev/chaos_dimension) MCP at user scope.
 4. `add-repo.sh <git-url>` to clone a repo and enable its server.
 5. Hand-driven `systemctl --user` start, stop, and restart, plus `tmux attach`, `free -h`, and periodic cleanup of ghost sessions left behind after reboots.
 
@@ -75,7 +75,7 @@ Human loop    Telegram escalation          auth prompts, OOM, repeated crashes
 
 **Against `claude-rc-server`,** the relationship is a kubelet and control-plane split. `claude-rc-server` is the worker: one server per repo, anchored to a directory, serving sessions up to a capacity. The Conductor is the controller: one per box, driving many servers. The Conductor depends on the worker's control interface, meaning its scripts, the `claude-rc@*` unit-naming convention, and its status output. If the Conductor dies, systemd keeps the servers running. The box loses convergence, not its work.
 
-**Against Chaos Dimension,** the board is the system of record. It declares desired state through the `remoteRunnable` and `agentDispatchable` flags it already exposes. The Conductor reads that intent and writes observed runtime state back to the Agent Monitor. Two invariants keep the separation clean: the board never SSHes into the box, and the Conductor never decides what work to do. One holds intent, the other actuates it.
+**Against [Chaos Dimension](https://github.com/gabelev/chaos_dimension),** the board is the system of record. It declares desired state through the `remoteRunnable` and `agentDispatchable` flags it already exposes. The Conductor reads that intent and writes observed runtime state back to the Agent Monitor. Two invariants keep the separation clean: the board never SSHes into the box, and the Conductor never decides what work to do. One holds intent, the other actuates it.
 
 ### In the broader ecosystem
 
@@ -84,11 +84,11 @@ A useful way to place the Conductor is by layer. Agent tooling in 2026 tends to 
 - **Runtime.** [OpenClaw](https://github.com/openclaw) is a self-hosted, model-agnostic agent runtime that connects an LLM to messaging platforms with skills and persistent memory. [Claude Code](https://www.claude.com/claude-code) is Anthropic's terminal-native coding agent, with its own sub-agents and Agent Teams. `claude-rc-server` is the thin layer that runs Claude Code as an always-on remote service.
 - **Ops and keep-alive.** [AlphaClaw](https://github.com/chrysb/alphaclaw) wraps OpenClaw with a self-healing watchdog, git-backed backups, and a browser dashboard, so agents deploy in minutes and stay running for months with no SSH.
 - **Memory.** [GBrain](https://github.com/garrytan/gbrain) is a self-wiring knowledge layer, a hybrid search and knowledge graph behind an MCP server, that gives any agent durable memory across sessions.
-- **Coordination.** Chaos Dimension is an MCP-native, neutral ledger of what work exists, independent of any runtime.
+- **Coordination.** [Chaos Dimension](https://github.com/gabelev/chaos_dimension) is an MCP-native, neutral ledger of what work exists, independent of any runtime.
 
 Chaos Conductor adds the **control plane** for the Claude Code runtime. Its closest analog in the Claw stack is AlphaClaw. Both eliminate SSH, both run a self-healing watchdog, and both keep a fleet of agents alive without babysitting. The Conductor differs in two ways. It targets the Claude Code runtime through `claude-rc-server` rather than OpenClaw. And it is driven declaratively by an external, neutral coordination ledger rather than by its own dashboard. AlphaClaw's source of truth is its control panel. The Conductor's source of truth is the board, which also holds the work itself.
 
-That difference is the whole bet. You own the coordination layer (Chaos Dimension) and the control plane (the Conductor). You rent the runtime, the ops conveniences, and the memory around them. The plan lives in a substrate you control, not inside a single harness or a single vendor's dashboard.
+That difference is the whole bet. You own the coordination layer ([Chaos Dimension](https://github.com/gabelev/chaos_dimension)) and the control plane (the Conductor). You rent the runtime, the ops conveniences, and the memory around them. The plan lives in a substrate you control, not inside a single harness or a single vendor's dashboard.
 
 ## Install
 
@@ -112,7 +112,7 @@ Restart Claude Code, run `/mcp`, and you should see `chaos-conductor`.
 
 ## Control surface
 
-Driven through MCP tools, callable from the web app, your phone, or another agent. Tools are prefixed `conductor_` so they don't collide with Chaos Dimension's task tools when both servers are connected.
+Driven through MCP tools, callable from the web app, your phone, or another agent. Tools are prefixed `conductor_` so they don't collide with [Chaos Dimension](https://github.com/gabelev/chaos_dimension)'s task tools when both servers are connected.
 
 **Available now (M1):**
 
