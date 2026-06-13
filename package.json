@@ -1,0 +1,26 @@
+{
+  "name": "chaos-conductor",
+  "version": "0.1.0",
+  "description": "Declarative control plane for remote Claude Code sessions — drives claude-rc-server from an MCP surface, no SSH.",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "bin": {
+    "chaos-conductor": "bin/chaos-conductor.js"
+  },
+  "exports": "./src/server.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node bin/chaos-conductor.js mcp",
+    "status": "node bin/chaos-conductor.js status",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.0"
+  }
+}
