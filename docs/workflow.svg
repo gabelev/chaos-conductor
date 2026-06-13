@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 470" width="1000" height="470" font-family="'JetBrains Mono','SFMono-Regular',ui-monospace,Menlo,monospace" role="img" aria-label="Chaos Dimension workflow loop: Notion to Chaos Dimension to Chaos Conductor to Claude Code agents, and back to the board.">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0A0A0A"/>
+    </marker>
+    <marker id="arrowMag" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#CC0066"/>
+    </marker>
+    <marker id="arrowDim" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6B6760"/>
+    </marker>
+  </defs>
+
+  <!-- card -->
+  <rect x="1" y="1" width="998" height="468" rx="10" fill="#F4F1E8" stroke="#0A0A0A" stroke-width="2"/>
+
+  <text x="500" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#0A0A0A">Chaos Dimension — the loop</text>
+
+  <!-- human review arc: board -> Notion -->
+  <path d="M 364 92 C 364 60, 126 60, 126 90" fill="none" stroke="#6B6760" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrowDim)"/>
+  <text x="245" y="54" text-anchor="middle" font-size="10.5" fill="#6B6760">you review &amp; refine &#8634;</text>
+
+  <!-- ============ nodes ============ -->
+  <!-- 1 NOTION -->
+  <g>
+    <rect x="30" y="92" width="192" height="128" rx="6" fill="#FFFFFF" stroke="#0A0A0A" stroke-width="2"/>
+    <path d="M30 98 a6 6 0 0 1 6 -6 h180 a6 6 0 0 1 6 6 v24 h-192 z" fill="#37352F"/>
+    <text x="126" y="113" text-anchor="middle" font-size="12.5" font-weight="700" fill="#FFFFFF">1 &#183; NOTION</text>
+    <text x="126" y="152" text-anchor="middle" font-size="12" fill="#0A0A0A">Heavy thinking —</text>
+    <text x="126" y="172" text-anchor="middle" font-size="12" fill="#0A0A0A">requirements &amp; specs</text>
+    <text x="126" y="200" text-anchor="middle" font-size="10.5" fill="#6B6760">your source of truth</text>
+  </g>
+  <!-- 2 CHAOS DIMENSION -->
+  <g>
+    <rect x="268" y="92" width="192" height="128" rx="6" fill="#FFFFFF" stroke="#0A0A0A" stroke-width="2"/>
+    <path d="M268 98 a6 6 0 0 1 6 -6 h180 a6 6 0 0 1 6 6 v24 h-192 z" fill="#CC0066"/>
+    <text x="364" y="113" text-anchor="middle" font-size="12.5" font-weight="700" fill="#FFFFFF">2 &#183; CHAOS DIMENSION</text>
+    <text x="364" y="152" text-anchor="middle" font-size="12" fill="#0A0A0A">Claude turns reqs</text>
+    <text x="364" y="172" text-anchor="middle" font-size="12" fill="#0A0A0A">into tasks on the board</text>
+    <text x="364" y="200" text-anchor="middle" font-size="10.5" fill="#6B6760">backlog &#8594; active &#8594; review &#8594; done</text>
+  </g>
+  <!-- 3 CHAOS CONDUCTOR -->
+  <g>
+    <rect x="506" y="92" width="192" height="128" rx="6" fill="#FFFFFF" stroke="#0A0A0A" stroke-width="2"/>
+    <path d="M506 98 a6 6 0 0 1 6 -6 h180 a6 6 0 0 1 6 6 v24 h-192 z" fill="#0038FF"/>
+    <text x="602" y="113" text-anchor="middle" font-size="12.5" font-weight="700" fill="#FFFFFF">3 &#183; CHAOS CONDUCTOR</text>
+    <text x="602" y="152" text-anchor="middle" font-size="12" fill="#0A0A0A">Distributes tasks</text>
+    <text x="602" y="172" text-anchor="middle" font-size="12" fill="#0A0A0A">across the fleet</text>
+    <text x="602" y="200" text-anchor="middle" font-size="10.5" fill="#6B6760">the control plane</text>
+  </g>
+  <!-- 4 CLAUDE CODE -->
+  <g>
+    <rect x="744" y="92" width="192" height="128" rx="6" fill="#FFFFFF" stroke="#0A0A0A" stroke-width="2"/>
+    <path d="M744 98 a6 6 0 0 1 6 -6 h180 a6 6 0 0 1 6 6 v24 h-192 z" fill="#1F7A4D"/>
+    <text x="840" y="113" text-anchor="middle" font-size="12.5" font-weight="700" fill="#FFFFFF">4 &#183; CLAUDE CODE</text>
+    <text x="840" y="152" text-anchor="middle" font-size="12" fill="#0A0A0A">Agents execute on</text>
+    <text x="840" y="172" text-anchor="middle" font-size="12" fill="#0A0A0A">a remote box</text>
+    <text x="840" y="200" text-anchor="middle" font-size="10.5" fill="#6B6760">via claude-rc-server</text>
+  </g>
+
+  <!-- forward arrows -->
+  <line x1="222" y1="156" x2="266" y2="156" stroke="#0A0A0A" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <line x1="460" y1="156" x2="504" y2="156" stroke="#0A0A0A" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <line x1="698" y1="156" x2="742" y2="156" stroke="#0A0A0A" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- feedback loop: agents -> board -->
+  <path d="M 840 220 C 840 408, 364 408, 364 222" fill="none" stroke="#CC0066" stroke-width="3" marker-end="url(#arrowMag)"/>
+  <text x="602" y="398" text-anchor="middle" font-size="11.5" font-weight="700" fill="#CC0066">agents update the board — claim &#183; report progress &#183; move to done</text>
+  <text x="602" y="416" text-anchor="middle" font-size="10.5" fill="#6B6760">&#8634; the loop continues</text>
+
+  <!-- footer -->
+  <text x="500" y="452" text-anchor="middle" font-size="10" fill="#6B6760">Chaos Dimension coordinates &#183; Chaos Conductor controls &#183; claude-rc-server executes</text>
+</svg>
