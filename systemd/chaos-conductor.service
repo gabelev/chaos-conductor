@@ -1,0 +1,27 @@
+# Chaos Conductor as a systemd *user* service.
+#
+# M1 NOTE: in M1 the Conductor is an MCP server launched on demand by an MCP
+# client over stdio (e.g. `claude mcp add ... -- node bin/chaos-conductor.js`),
+# so you do NOT need this unit yet. It is the template for the M3 reconcile
+# daemon — the long-running loop that reads desired state from Chaos Dimension
+# and converges the droplet. `reconcile` lands in M3.
+#
+# Install (once M3 exists):
+#   sed "s|__CONDUCTOR_ROOT__|$PWD|g" systemd/chaos-conductor.service \
+#     > ~/.config/systemd/user/chaos-conductor.service
+#   systemctl --user daemon-reload && systemctl --user enable --now chaos-conductor
+
+[Unit]
+Description=Chaos Conductor — declarative control plane for claude-rc-server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=-__CONDUCTOR_ROOT__/.env
+ExecStart=/usr/bin/env node __CONDUCTOR_ROOT__/bin/chaos-conductor.js reconcile
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
